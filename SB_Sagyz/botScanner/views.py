@@ -12,6 +12,21 @@ from botScanner.data_crawler import scrap_data_ip
 from botScanner.bosfor_operator import execute_yaml_tester
 
 
+from django.core.mail import send_mail
+from django.conf import settings
+
+# def send_notification_email(subject, message, recipient_list):
+#     send_mail(
+#         subject,
+#         message,
+#         settings.EMAIL_HOST_USER,
+#         recipient_list,
+#         fail_silently=False,
+#     )
+
+
+
+
 @api_view(['GET', 'POST'])
 @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
@@ -75,6 +90,12 @@ def create_query_view(request):
             'cve_results': cve_results
         }
         
+        # send_notification_email(
+        #     'Уведомление от SB_Sagyz',
+        #     'Ваше сканирование завершено.',
+        #     ['karimtaevbeksultan@gmail.com']
+        # )
+
         return render(request, 'botScanner/query_info.html', context)
     return render(request, 'botScanner/create_query.html')
 
