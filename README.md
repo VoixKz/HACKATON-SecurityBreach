@@ -61,3 +61,28 @@ python manage.py clear_tables
 ```bash
 python manage.py clear_scan
 ```
+
+## Запросы API
+
+Внимание! Для того, чтобы пользоваться REST API, необходимо получить токены.
+
+### Получение токена (авторизация по json)
+```
+POST /api/token {username} {password}
+```
+
+### Обновление токена
+```
+POST /api/token {username} {refresh_token}
+```
+
+
+### Получение списка уязвимостей и возможных PoC (Proof of Concept)
+```
+POST /api/vulnerabilities
+```
+
+### Создание запроса на сканирование IPv4 адреса.
+```
+GET /api/scan {ip_adress}
+```
