@@ -1,0 +1,58 @@
+{% extends "authApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Результаты запроса</h2>
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            Успешно получены данные по запросу на {{ ipv4 }}
+        </div>
+        <div class="card mt-3">
+            <div class="card-header">
+                Результаты Shodan
+            </div>
+            <div class="card-body">
+                <h5>Используемые платформы:</h5>
+                <ul class="list-group mb-3">
+                    {% for platform in platforms %}
+                        <li class="list-group-item">{{ platform }}</li>
+                    {% endfor %}
+                </ul>
+                <h5>Используемые порты:</h5>
+                <ul class="list-group mb-3">
+                    {% for port in ports %}
+                        <li class="list-group-item">{{ port }}</li>
+                    {% endfor %}
+                </ul>
+                <h5>Операционная система:</h5>
+                <p class="card-text">{{ os }}</p>
+                <h5>Хостнеймы:</h5>
+                <ul class="list-group mb-3">
+                    {% for hostname in hostnames %}
+                        <li class="list-group-item">{{ hostname }}</li>
+                    {% endfor %}
+                </ul>
+                <h5>Результаты проверки CVE:</h5>
+                <ul class="list-group">
+                    {% for cve_id, result in cve_results.items %}
+                        <li class="list-group-item">
+                            <strong>{{ cve_id }}:</strong>
+                            <ul>
+                                {% for res in result %}
+                                    <li>{{ res }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            Произошла ошибка при выполнении запроса.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

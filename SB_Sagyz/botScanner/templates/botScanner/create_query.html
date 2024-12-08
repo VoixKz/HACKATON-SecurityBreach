@@ -1,0 +1,19 @@
+{% extends "authApp/base.html" %}
+
+{% load static %}
+
+{% block title %}Сканирование{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Введите IP или домен сервера для начала сканирования</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="serverInput">IP или домен сервера</label>
+            <input type="text" class="form-control" id="serverInput" name="ip_or_domain" placeholder="Введите IP или домен">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Начать сканирование</button>
+    </form>
+</div>
+{% endblock %}

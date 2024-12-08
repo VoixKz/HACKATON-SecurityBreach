@@ -1,0 +1,16 @@
+{% extends "authApp/base.html" %}
+
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="main__container container mt-5">
+    <h2 class="mb-4">Вход</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</div>
+{% endblock %}
