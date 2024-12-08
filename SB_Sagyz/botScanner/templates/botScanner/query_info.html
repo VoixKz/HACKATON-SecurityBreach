@@ -40,9 +40,10 @@
                         <li class="list-group-item">
                             <strong>{{ cve_id }}:</strong>
                             <ul>
-                                {% for res in result %}
+                                {{ result }}
+                                {% comment %} {% for res in result %}
                                     <li>{{ res }}</li>
-                                {% endfor %}
+                                {% endfor %} {% endcomment %}
                             </ul>
                         </li>
                     {% endfor %}
