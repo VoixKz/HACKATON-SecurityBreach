@@ -3,46 +3,44 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Результаты запроса</h2>
+<div class="container mx-auto mt-5 flex flex-col items-center">
+    <h2 class="text-2xl font-bold mb-6">Результаты запроса</h2>
     {% if success %}
-        <div class="alert alert-success" role="alert">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mb-6 rounded relative text-center" role="alert">
             Успешно получены данные по запросу на {{ ipv4 }}
         </div>
-        <div class="card mt-3">
-            <div class="card-header">
+        <div class="bg-white shadow-md rounded mt-3 w-full max-w-4xl">
+            <div class="bg-gray-200 px-4 py-2 rounded-t text-center ">
                 Результаты Shodan
             </div>
-            <div class="card-body">
-                <h5>Используемые платформы:</h5>
-                <ul class="list-group mb-3">
+            <div class="p-4">
+                <h5 class="text-lg font-semibold text-center">Используемые платформы:</h5>
+                <ul class="list-disc list-inside mb-3">
                     {% for platform in platforms %}
-                        <li class="list-group-item">{{ platform }}</li>
+                        <li class="py-1 text-center">{{ platform }}</li>
                     {% endfor %}
                 </ul>
-                <h5>Используемые порты:</h5>
-                <ul class="list-group mb-3">
+                <h5 class="text-lg font-semibold text-center">Используемые порты:</h5>
+                <ul class="list-disc list-inside mb-3">
                     {% for port in ports %}
-                        <li class="list-group-item">{{ port }}</li>
+                        <li class="py-1 text-center">{{ port }}</li>
                     {% endfor %}
                 </ul>
-                <h5>Операционная система:</h5>
-                <p class="card-text">{{ os }}</p>
-                <h5>Хостнеймы:</h5>
-                <ul class="list-group mb-3">
+                <h5 class="text-lg font-semibold text-center">Операционная система:</h5>
+                <p class="mb-3 text-center">{{ os }}</p>
+                <h5 class="text-lg font-semibold text-center">Хостнеймы:</h5>
+                <ul class="list-disc list-inside mb-3">
                     {% for hostname in hostnames %}
-                        <li class="list-group-item">{{ hostname }}</li>
+                        <li class="py-1 text-center">{{ hostname }}</li>
                     {% endfor %}
                 </ul>
-                <h5>Результаты проверки CVE:</h5>
-                <ul class="list-group">
+                <h5 class="text-lg font-semibold text-center">Результаты проверки CVE:</h5>
+                <ul class="list-disc list-inside">
                     {% for cve_id, result in cve_results.items %}
-                        <li class="list-group-item">
+                        <li class="py-1 text-center">
                             <strong>{{ cve_id }}:</strong>
-                            <ul>
-                                {% for res in result %}
-                                    <li>{{ res }}</li>
-                                {% endfor %}
+                            <ul class="list-disc list-inside ml-5">
+                                {{ result}}
                             </ul>
                         </li>
                     {% endfor %}
@@ -50,9 +48,18 @@
             </div>
         </div>
     {% else %}
-        <div class="alert alert-danger" role="alert">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
             Произошла ошибка при выполнении запроса.
         </div>
     {% endif %}
 </div>
+{% endblock %}
+
+
+{% block extra_css %}
+<style>
+    main {
+        margin-top: 150px;
+    }
+</style>
 {% endblock %}

@@ -1,49 +1,58 @@
 {% extends "authApp/base.html" %}
 
-
 {% load static %}
 
-
-{% block title %}Запрос {{ ipv4 }}{% endblock %}
-
-
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Информация о запросе</h2>
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">IP или домен: {{ ipv4 }}</h5>
-            <p class="card-text"><strong>Статус:</strong> {{ status }}</p>
-            <h5>Результаты Shodan</h5>
-            <h5>Используемые платформы:</h5>
-            <ul class="list-group mb-3">
-                {% for platform in platforms %}
-                    <li class="list-group-item">{{ platform }}</li>
-                {% endfor %}
-            </ul>
-            <h5>Используемые порты:</h5>
-            <ul class="list-group mb-3">
-                {% for port in ports %}
-                    <li class="list-group-item">{{ port }}</li>
-                {% endfor %}
-            </ul>
-            <h5>Операционная система:</h5>
-            <p class="card-text">{{ os }}</p>
-            <h5>Хостнеймы:</h5>
-            <ul class="list-group mb-3">
-                {% for hostname in hostnames %}
-                    <li class="list-group-item">{{ hostname }}</li>
-                {% endfor %}
-            </ul>
-            <h5>Уязвимости:</h5>
-            <ul class="list-group mb-3">
-                {% for vulnerability in cve_results %}
-                    <li class="list-group-item">{{ vulnerability.vulnerability_id }} - {{ vulnerability.description }}</li>
-                {% endfor %}
-            </ul>
-            <p class="card-text"><strong>Примененные эксплойты и РоС:</strong> {{ applied_exploits }}</p>
-            <p class="card-text"><strong>Уязвимые сервисы или приложения:</strong> {{ vulnerable_services_or_apps }}</p>
+<div class="container mx-auto mt-5 flex flex-col items-center">
+    <h2 class="text-2xl font-bold mb-6">Результаты запроса {{ ipv4 }}</h2>
+    {% if success %}
+        <div class="bg-white shadow-md rounded mt-3 w-full max-w-4xl">
+            <div class="bg-gray-200 px-4 py-2 rounded-t text-center ">
+                Результаты Shodan
+            </div>
+            <div class="p-4">
+                <h5 class="text-lg font-semibold text-center">Используемые платформы:</h5>
+                <ul class="list-disc list-inside mb-3">
+                    {% for platform in platforms %}
+                        <li class="py-1 text-center">{{ platform }}</li>
+                    {% endfor %}
+                </ul>
+                <h5 class="text-lg font-semibold text-center">Используемые порты:</h5>
+                <ul class="list-disc list-inside mb-3">
+                    {% for port in ports %}
+                        <li class="py-1 text-center">{{ port }}</li>
+                    {% endfor %}
+                </ul>
+                <h5 class="text-lg font-semibold text-center">Операционная система:</h5>
+                <p class="mb-3 text-center">{{ os }}</p>
+                <h5 class="text-lg font-semibold text-center">Хостнеймы:</h5>
+                <ul class="list-disc list-inside mb-3">
+                    {% for hostname in hostnames %}
+                        <li class="py-1 text-center">{{ hostname }}</li>
+                    {% endfor %}
+                </ul>
+                <h5 class="text-lg font-semibold text-center">Уязвимости:</h5>
+                <ul class="list-disc list-inside mb-3">
+                    {% for vulnerability in cve_results %}
+                        <li class="py-1 text-center">{{ vulnerability.vulnerability_id }} - {{ vulnerability.description }}</li>
+                    {% endfor %}
+                </ul>
+                <p class="card-text"><strong>Примененные эксплойты и РоС:</strong> {{ applied_exploits }}</p>
+                <p class="card-text"><strong>Уязвимые сервисы или приложения:</strong> {{ vulnerable_services_or_apps }}</p>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+            Произошла ошибка при выполнении запроса.
+        </div>
+    {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    main {
+        margin-top: 150px;
+    }
+</style>
 {% endblock %}

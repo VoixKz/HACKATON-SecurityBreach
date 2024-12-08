@@ -1,20 +1,20 @@
 {% extends "authApp/base.html" %}
 
-
 {% load static %}
-
 
 {% block title %}Главная{% endblock %}
 
-
 {% block content %}
-    <div class="container main__container d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
-        <h1>Главная страница</h1>
-        <p>Добро пожаловать на главную страницу!</p>
+    <div class="container mx-auto flex flex-col justify-center items-center h-screen">
+        <h1 class="text-5xl font-bold">Главная страница</h1>
+        <p class="mt-4 text-lg">Добро пожаловать на главную страницу!</p>
     </div>
 {% endblock %}
 
-
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'authApp/css/home.css' %}">
+    <style>
+        body {
+            overflow-y: hidden; 
+        }
+    </style>
 {% endblock %}

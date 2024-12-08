@@ -33,18 +33,21 @@ def create_query_view(request):
         status = 'secured'
         probed_vulnerabilities = []
         
-        result = execute_yaml_tester(ipv4final)
+        mresults = execute_yaml_tester(ipv4final)
+        print(f'REERER: {mresults}')
         for vulnerability in vulnerabilities:
             cve_id = vulnerability.vulnerability_id
-            cve_results[cve_id] = result
-            if result and result != ['not-affected/ignored']:
-                status = 'vulnerable'
-                probed_vulnerabilities.append(vulnerability)
-                vulnerable_services_or_apps.append(cve_id)
-                for exploit in vulnerability.exploits.all():
-                    applied_exploits.append(exploit.name)
+            for file_name, result in mresults.items():
+                if cve_id in file_name:
+                    cve_results[cve_id] = result
+                    if result and result != 'OK/NO VULNERABILITIES':
+                        status = 'vulnerable'
+                        probed_vulnerabilities.append(vulnerability)
+                        vulnerable_services_or_apps.append(cve_id)
+                        for exploit in vulnerability.exploits.all():
+                            applied_exploits.append(exploit.name)
         
-        if status == 'secured' and any(result != ['not-affected/ignored'] for result in cve_results.values()):
+        if status == 'secured' and any(result != 'OK/NO VULNERABILITIES' for result in cve_results.values()):
             status = 'other'
         
         query = Query.objects.create(
@@ -79,9 +82,22 @@ def create_query_view(request):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
-def vulnerabilities(request):
+def vulnerabilities_view(request):
+    domain = request.GET.get('domain')
+    if domain:
+        try:
+            query = Query.objects.get(ip_or_domain=domain)
+            vulnerabilities = query.vulnerabilities.all()
+        except Query.DoesNotExist:
+            return Response({'success': False, 'message': 'Domain not found in query database'}, status=404)
+    else:
+        vulnerabilities = Vulnerability.objects.all()
+
     data_to_send = {
         'success': True,
-        'message': 'Vulnerabilities!'
+        'vulnerabilities': [
+            {'name': vulnerability.vulnerability_id, 'description': vulnerability.description}
+            for vulnerability in vulnerabilities
+        ]
     }
     return Response(data_to_send)

@@ -71,31 +71,37 @@ def remove_ansi_stuff(text: str) -> str:
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
     return ansi_escape.sub('', text)
 
-def execute_yaml_tester(target: str) -> list[str]:
-    print(f'Using template with this path: {str(settings.MEDIA_ROOT) + os.sep}')
-    command = ["nuclei", "-target", target, "-include-tags", "dos,local,fuzz,bruteforce", "-t", str(settings.MEDIA_ROOT) + os.sep, "-v"]
-    try:
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
-        print(f"Debug: {result.stdout}\n{result.stderr}")
-        data_dump = result.stdout.splitlines()
-        result_data = []
-        const_type_vul = ['high', 'critical']
+def execute_yaml_tester(target: str) -> dict[str, str]:
+    target = str(target[2:-2])
+    return_data = dict()
+    for file in os.listdir(settings.MEDIA_ROOT):
+        file_name = str(os.path.basename(file))[:-5]
+        absolute_path = os.path.join(settings.MEDIA_ROOT, file)
+        command = ["nuclei", "-target", target, "-include-tags", "dos,local,fuzz,bruteforce", "-t", str(absolute_path), "-v"]
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            print(f"Debug: {result.stdout}\n{result.stderr}")
+            data_dump = result.stdout.splitlines()
+            result_data = []
+            const_type_vul = ['high', 'critical']
 
-        for data_val in data_dump:
-            print(f'Debug: {data_val}')
-            cleaned = remove_ansi_stuff(data_val.strip())
-            if any(seq in cleaned for seq in const_type_vul):
-                # transform string
-                cleaned = cleaned.replace('[', '').replace(']', '').split(' ')
-                result_data.append(f"{cleaned[0]} - {cleaned[2]} ({cleaned[1]})")
-        
-        if not data_dump or len(result_data) < 1:
-            return None
-        return result_data
-    except subprocess.CalledProcessError as e:
-        print("Command failed with error code:", e.returncode)
-        print("Error output:\n", e.stderr)
-        return None
+            for data_val in data_dump:
+                print(f'Debug: {data_val}')
+                cleaned = remove_ansi_stuff(data_val.strip())
+                if any(seq in cleaned for seq in const_type_vul):
+                    # transform string
+                    cleaned = cleaned.replace('[', '').replace(']', '').split(' ')
+                    result_data.append(f"{cleaned[0]} - {cleaned[2]} ({cleaned[1]})")
+            
+            if not data_dump or len(result_data) < 1:
+                return_data[file_name] = 'OK/NO VULNERABILITIES'
+            result1 = str('\n'.join(result_data))
+            return_data[file_name] = result1 if (len(result1) > 0) else 'OK/NO VULNERABILITIES'
+        except subprocess.CalledProcessError as e:
+            print("Command failed with error code:", e.returncode)
+            print("Error output:\n", e.stderr)
+            return_data[file_name] = 'OK/NO VULNERABILITIES'
+    return return_data
     
 def execute_nuclei_general(target: str) -> list[str]:
     command = ["nuclei", "-target", target, "-include-tags", "dos,local,fuzz,bruteforce", "-tags", "cve"]
