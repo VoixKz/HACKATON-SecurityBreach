@@ -38,8 +38,6 @@ def save_exploits_to_db(exploits):
             cve_id = extract_cve(description)
             if cve_id:
 
-                generate_yaml_template(cve_id)
-
                 cve_date, cve_description = get_cve_details(cve_id)
                 if cve_date and cve_description:
                     formatted_date = datetime.strptime(cve_date, '%B %d, %Y').strftime('%Y-%m-%d')

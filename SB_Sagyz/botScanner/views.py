@@ -9,8 +9,7 @@ from rest_framework.response import Response
 
 from botScanner.nslookup import lookup_domain
 from botScanner.data_crawler import scrap_data_ip
-from botScanner.bosfor_operator import check_ip_for_cve
-
+from botScanner.bosfor_operator import execute_yaml_tester
 
 
 @api_view(['GET', 'POST'])
@@ -34,9 +33,9 @@ def create_query_view(request):
         status = 'secured'
         probed_vulnerabilities = []
         
+        result = execute_yaml_tester(ipv4final)
         for vulnerability in vulnerabilities:
             cve_id = vulnerability.vulnerability_id
-            result = check_ip_for_cve(ipv4final, cve_id)
             cve_results[cve_id] = result
             if result and result != ['not-affected/ignored']:
                 status = 'vulnerable'
