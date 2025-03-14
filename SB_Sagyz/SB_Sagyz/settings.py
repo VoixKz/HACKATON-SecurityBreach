@@ -87,16 +87,24 @@ WSGI_APPLICATION = 'SB_Sagyz.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv('DB_NAME'),
-        "USER": os.getenv('DB_USER'),
-        "PASSWORD": os.getenv('DB_PASSWORD'),
-        "HOST": 'localhost',
-        "PORT": 5432,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv('DB_NAME'),
+#         "USER": os.getenv('DB_USER'),
+#         "PASSWORD": os.getenv('DB_PASSWORD'),
+#         "HOST": 'localhost',
+#         "PORT": 5432,
+#     }
+# }
 
 
 # Password validation
@@ -152,8 +160,6 @@ LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'authApp.CustomUser'
 
 
-# SB_Sagyz/SB_Sagyz/settings.py
-
 CELERY_BROKER_URL = 'sqla+postgresql://postgres:654321@localhost:5432/SB_Sagyz'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULE = {
@@ -163,19 +169,6 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-
-# REST_FRAMEWORK = {
-#     'EXCEPTION_HANDLER': 'botScanner.utils.tokenized_request_exception',
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ),
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
-#     'DEFAULT_RENDERER_CLASSES': (
-#         'rest_framework.renderers.JSONRenderer',
-#     ),
-# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -200,7 +193,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-# Настройки для отправки email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from botScanner.nslookup import lookup_domain
 from botScanner.data_crawler import scrap_data_ip
-from botScanner.bosfor_operator import execute_yaml_tester
+from botScanner.bosfor_operator import execute_yaml_tester, execute_nuclei_general
 
 
 from django.core.mail import send_mail
@@ -49,6 +49,8 @@ def create_query_view(request):
         probed_vulnerabilities = []
         
         mresults = execute_yaml_tester(ipv4final)
+        nresults = execute_nuclei_general(ipv4final)
+        print(f'NREERER: {nresults}')
         print(f'REERER: {mresults}')
         for vulnerability in vulnerabilities:
             cve_id = vulnerability.vulnerability_id
