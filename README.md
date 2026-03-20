@@ -3,6 +3,25 @@
 ## Введение
 Добро пожаловать в веб-приложение SB_Sagyz! Это руководство поможет вам начать работу с нашим приложением и объяснит основные функции.
 
+## Технический стек
+
+<p>
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&amp;logo=python&amp;logoColor=ffdd54" alt="Python">
+  <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&amp;logo=django&amp;logoColor=white" alt="Django">
+  <img src="https://img.shields.io/badge/django_rest_framework-A30000?style=for-the-badge&amp;logo=django&amp;logoColor=white" alt="Django REST Framework">
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&amp;logo=jsonwebtokens&amp;logoColor=white" alt="JWT">
+  <img src="https://img.shields.io/badge/celery-37814A?style=for-the-badge&amp;logo=celery&amp;logoColor=white" alt="Celery">
+  <img src="https://img.shields.io/badge/postgresql-316192?style=for-the-badge&amp;logo=postgresql&amp;logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/sqlite-07405E?style=for-the-badge&amp;logo=sqlite&amp;logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/openai-412991?style=for-the-badge&amp;logo=openai&amp;logoColor=white" alt="OpenAI API">
+  <img src="https://img.shields.io/badge/shodan-E85D04?style=for-the-badge&amp;logo=shodan&amp;logoColor=white" alt="Shodan API">
+  <img src="https://img.shields.io/badge/nmap-004C97?style=for-the-badge&amp;logo=gnu-bash&amp;logoColor=white" alt="Nmap">
+  <img src="https://img.shields.io/badge/selenium-43B02A?style=for-the-badge&amp;logo=selenium&amp;logoColor=white" alt="Selenium">
+  <img src="https://img.shields.io/badge/beautifulsoup-2E7D32?style=for-the-badge&amp;logo=python&amp;logoColor=white" alt="BeautifulSoup">
+  <img src="https://img.shields.io/badge/sqlalchemy-D71F00?style=for-the-badge&amp;logo=sqlalchemy&amp;logoColor=white" alt="SQLAlchemy">
+  <img src="https://img.shields.io/badge/tailwind_css-38B2AC?style=for-the-badge&amp;logo=tailwind-css&amp;logoColor=white" alt="Tailwind CSS">
+</p>
+
 ## GUI Часть
 
 ### Регистрация и Вход
@@ -43,7 +62,7 @@ python manage.py runserver
 
 ### Получить и построить в БД список эксплойтов:
 ```bash
-python manage.py fetch_exploits
+python manage.py fetch_exploit
 ```
 
 ### Получить и построить в БД список PoC (Proof of Concept):
